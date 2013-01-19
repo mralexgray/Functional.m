@@ -30,7 +30,8 @@ typedef void (^VoidBlock) ();
 
 
 static BOOL F_concurrently = NO;
-static dispatch_queue_t F_queue;
+static dispatch_queue_t __unused F_queue;
+//#pragma unused(F_queue)
 
 @interface F : NSObject
     + (void) useConcurrency;
