@@ -7,7 +7,7 @@ Here's the documentation for the individual functions:
 The numberArray NSArray contains a collection of NSNumbers, The dict NSDictionary contains the same collection - the keys are the names of the numbers
 
 ```objc
-    NSArray *numberArray = [NSArray arrayFrom:1 To:5];
+    NSArray *numberArray = [NSArray arrayFromto:5];
     NSArray *numberNamesArray = [NSArray arrayWithObjects:@"one", @"two", @"three", @"four", @"five", nil];
     NSDictionary *numberDict = [NSDictionary dictionaryWithObjects:numberArray forKeys:numberNamesArray];
 ```
@@ -16,8 +16,8 @@ The numberArray NSArray contains a collection of NSNumbers, The dict NSDictionar
 
 The given iterator runs for each object in the collection.
 
-- `- (void) each:(VoidIteratorArrayBlock) block;`
-- `- (void) each:(VoidIteratorDictBlock) block;`
+- `- _Void_ each:(ObjBlk) block;`
+- `- _Void_ each:(ObjObjBlk) block;`
 
 Example:
 
@@ -35,8 +35,8 @@ Example:
 
 Each object in the collection can be transformed in the iterator.
 
-- `- (NSArray *) map:(MapArrayBlock) block;`
-- `- (NSDictionary *) map:(MapDictBlock) block;`
+- `- (NSArray *) map:(Obj_ObjBlk) block;`
+- `- (NSDictionary *) map:(Obj_ObjObjBlk) block;`
 
 Example:
 
@@ -55,8 +55,8 @@ Example:
 
 Reduces all objects in the collection to a single value (something like computing the average etc.)
 
-- `- (id) reduce:(ReduceArrayBlock) block withInitialMemo:(id) memo;`
-- `- (id) reduce:(ReduceDictBlock) block withInitialMemo:(id) memo;`
+- `- reduce:(ReduceArrayBlock) block withInitialMemo:(id) memo;`
+- `- reduce:(ReduceDictBlock) block withInitialMemo:(id) memo;`
 
 Example - adds all NSNumbers in the array or dictionary.
 
@@ -78,11 +78,11 @@ Example - adds all NSNumbers in the array or dictionary.
 
 `Filter` gives you only those objects, for that the iterator returns true. `Reject` removes all objects for that the iterator returns true.
 
-- `- (NSArray *) filter:(BoolArrayBlock) block;`
-- `- (NSArray *) reject:(BoolArrayBlock) block;`
+- `- (NSArray *) filter:(Bool_ObjBlk) block;`
+- `- (NSArray *) reject:(Bool_ObjBlk) block;`
 
-- `- (NSDictionary*) filter:(BoolDictionaryBlock) block;`
-- `- (NSDictionary*) reject:(BoolDictionaryBlock) block;`
+- `- (NSDictionary*) filter:(Bool_ObjObjBlk) block;`
+- `- (NSDictionary*) reject:(Bool_ObjObjBlk) block;`
 
 This example gives you all even (filter) or odd (reject) numbers in the array / dict:
 
@@ -108,11 +108,11 @@ This example gives you all even (filter) or odd (reject) numbers in the array / 
 
 `isValidForAll` returns YES if the iterator returns YES for all elements in the collection. `isValidForAny` returns YES if the iterator returns YES for at least one object in the collection.
 
-- `- (BOOL) isValidForAll:(BoolArrayBlock) block;`
-- `- (BOOL) isValidForAny:(BoolArrayBlock) block;`
+- `- (BOOL) isValidForAll:(Bool_ObjBlk) block;`
+- `- (BOOL) isValidForAny:(Bool_ObjBlk) block;`
 
-- `- (BOOL) isValidForAll:(BoolDictionaryBlock) block;`
-- `- (BOOL) isValidForAny:(BoolDictionaryBlock) block;`
+- `- (BOOL) isValidForAll:(Bool_ObjObjBlk) block;`
+- `- (BOOL) isValidForAny:(Bool_ObjObjBlk) block;`
 
 This example checks if all or any elements in the collection are even numbers
 
@@ -133,8 +133,8 @@ This example checks if all or any elements in the collection are even numbers
 
 Counts the number of entries in a set, for which the given block returns true:
 
-- `- (NSNumber *) countValidEntries:(BoolArrayBlock) block;`
-- `- (NSNumber *) countValidEntries:(BoolDictionaryBlock) block;`
+- `- (NSNumber *) countValidEntries:(Bool_ObjBlk) block;`
+- `- (NSNumber *) countValidEntries:(Bool_ObjObjBlk) block;`
 
 ```objc
     BoolArrayBlock isEvenArrayBlock = ^BOOL(NSNumber *obj) {
@@ -153,7 +153,7 @@ Counts the number of entries in a set, for which the given block returns true:
 
 Drops every entry before the first item the block returns true for.
 
-- `- (NSArray *) dropWhile:(BoolArrayBlock) block;`
+- `- (NSArray *) dropWhile:(Bool_ObjBlk) block;`
 
 ```objc
 	NSArray *droppedUntilThree = [numberArray dropWhile:^BOOL(NSNumber *nr) {
@@ -166,11 +166,11 @@ Drops every entry before the first item the block returns true for.
 
 Return the maximum and the minimum values in a collection. You will have to write a comperator, which compares two elements.
 
-- `- (id) max:(CompareArrayBlock) block;`
-- `- (id) min:(CompareArrayBlock) block;`
+- `- max:(CompareArrayBlock) block;`
+- `- min:(CompareArrayBlock) block;`
 
-- `- (id) max:(CompareDictBlock) block;`
-- `- (id) min:(CompareDictBlock) block;`
+- `- max:(CompareDictBlock) block;`
+- `- min:(CompareDictBlock) block;`
 
 Here's an example that gets the minimum and the maximum value from the array and dict described above:
 
@@ -217,7 +217,7 @@ Here's an example:
 
 Groups an array by the values returned by the iterator.
 
-- `- (NSDictionary *) group:(MapArrayBlock) block;`
+- `- (NSDictionary *) group:(Obj_ObjBlk) block;`
 
 Here's an example that groups an array into an odd numbers section and an even numbers section:
 
@@ -233,7 +233,7 @@ Here's an example that groups an array into an odd numbers section and an even n
 
 Call times on an `NSNumber` (n) to iterate n times over the given block.
 
-- `- (void) times:(VoidBlock) block;`
+- `- _Void_ times:(Blk) block;`
 
 Here's a simple example - it prints 'have i told you' once:
 
@@ -246,22 +246,22 @@ Here's a simple example - it prints 'have i told you' once:
 
 ##NSArray additions
 
-###arrayFrom:To:
+###arrayFromto:
 
 Creates an array, that contains the range as individual NSNumbers
 
-- `+ (NSArray *) arrayFrom:(NSInteger) from To:(NSInteger) to;`
+- `+ (NSArray *) arrayFromto:(NSInteger) to;`
 
 Example:
 
 ```objc
-	NSArray *rArr = [NSArray arrayFrom:0 To:3];
+	NSArray *rArr = [NSArray arrayFromto:3];
     NSLog(@"Array from 0 to 3 %@", rArr);
 ```
 
 ###first
 
-- `- (id) first;`
+- `- first;`
 
 Just a shortcut for `[array objectAtIndex:0]`;
 

@@ -6,92 +6,37 @@
 //  Copyright 2012 leuchtetgruen. All rights reserved.
 //
 
-#import "NSArray+F.h"
+#import <AtoZUniversal/F+Private.h>
 
 @implementation NSArray(F)
 
-- (void) each:(VoidIteratorArrayBlock) block {
-    [F eachInArray:self withBlock:block];
-}
+- _Void_ each:(ObjBlk)b                     { [F eachInArray:self withBlock:b]; }
+- _Void_ eachWithIndex:(ObjIntBlk)b   { [F eachInArrayWithIndex:self withBlock:b]; }
 
-- (void) eachWithIndex:(VoidIteratorArrayWithIndexBlock) block {
-    [F eachInArrayWithIndex:self withBlock:block];
-}
+-   (id)            reduce:(ReduceArrayBlock)b  
+           withInitialMemo: memo               { return [F reduceArray:self withBlock:b andInitialMemo:memo]; }
 
-- (NSArray *) map:(MapArrayBlock) block {
-    return [F mapArray:self withBlock:block];
-}
-
-- (id) reduce:(ReduceArrayBlock) block withInitialMemo:(id) memo {
-    return [F reduceArray:self withBlock:block andInitialMemo:memo];
-}
-
-- (NSArray *) filter:(BoolArrayBlock) block {
-    return [F filterArray:self withBlock:block];
-}
-
-- (NSArray *) reject:(BoolArrayBlock) block {
-    return [F rejectArray:self withBlock:block];
-}
-
-- (BOOL) isValidForAll:(BoolArrayBlock) block {
-    return [F allInArray:self withBlock:block];
-}
-
-- (BOOL) isValidForAny:(BoolArrayBlock) block {
-    return [F anyInArray:self withBlock:block];
-}
-
-- (NSNumber *) countValidEntries:(BoolArrayBlock) block {
-    return [F countInArray:self withBlock:block];
-}
-
-- (id) max:(CompareArrayBlock) block {
-    return [F maxArray:self withBlock:block];
-}
-
-- (id) min:(CompareArrayBlock) block {
-    return [F minArray:self withBlock:block];
-}
-- (NSArray *) dropWhile:(BoolArrayBlock) block {
-    return [F dropFromArray:self whileBlock:block];
-}
+- (NSA*)               map:(Obj_ObjBlk)b       { return [F mapArray:self withBlock:b];        }
+- (NSA*)            filter:(Bool_ObjBlk)b      { return [F filterArray:self withBlock:b];      }
+- (NSA*)            reject:(Bool_ObjBlk)b      { return [F rejectArray:self withBlock:b];      }
+- (BOOL)     isValidForAll:(Bool_ObjBlk)b      { return [F allInArray:self withBlock:b];       }
+- (BOOL)     isValidForAny:(Bool_ObjBlk)b      { return [F anyInArray:self withBlock:b];       }
+- (NSN*) countValidEntries:(Bool_ObjBlk)b      { return [F countInArray:self withBlock:b];     }
+-   (id)               max:(CompareArrayBlock)b   { return [F maxArray:self withBlock:b];         }
+-   (id)               min:(CompareArrayBlock)b   { return [F minArray:self withBlock:b];         }
+- (NSA*)         dropWhile:(Bool_ObjBlk)b      { return [F dropFromArray:self whileBlock:b];   }
 
 // This is really just an alias
-- (NSArray *) sort:(NSComparator) block {
-    return [self sortedArrayUsingComparator:block];
-}
+- (NSA*)  sort:(NSComparator)b   { return [self sortedArrayUsingComparator:b];     }
+- (NSD*) group:(Obj_ObjBlk)b   { return [F groupArray:self withBlock:b];  }
 
-- (NSDictionary *) group:(MapArrayBlock) block {
-    return [F groupArray:self withBlock:block];
-}
+-   (id) first    { return self[0]; } // Just a helper method
+- (NSA*) reverse  { return self.reverseObjectEnumerator.allObjects; } // Just a helper method
 
+//+ (NSA*)        arrayFrom:(NSI)from to:(NSI)to { return [@(from) to:@(to)]; }
 // Just a helper method
-- (id) first {
-    return [self objectAtIndex:0];
-}
-
+- (NSA*)  arrayUntilIndex:(NSI)idx  { return [self subarrayWithRange:NSMakeRange(0,               idx)];  }
 // Just a helper method
-- (NSArray *) reverse {
-    return [[self reverseObjectEnumerator] allObjects];
-}
-
-+ (NSArray *) arrayFrom:(NSInteger) from To:(NSInteger) to {
-    NSMutableArray *mutArr = [NSMutableArray array];
-    for (NSInteger i=from; i <= to; i++) {
-        [mutArr addObject:[NSNumber numberWithInteger:i]];
-    }
-    return [NSArray arrayWithArray:mutArr];
-}
-
-// Just a helper method
-- (NSArray *) arrayUntilIndex:(NSInteger) idx {
-    return [self subarrayWithRange:NSMakeRange(0, idx)];
-}
-
-// Just a helper method
-- (NSArray *) arrayFromIndexOn:(NSInteger) idx {
-    return [self subarrayWithRange:NSMakeRange(idx, [self count] - idx)];
-}
+- (NSA*) arrayFromIndexOn:(NSI)idx { return [self subarrayWithRange:NSMakeRange(idx,self.count - idx)];  }
 
 @end
