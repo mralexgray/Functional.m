@@ -5,7 +5,7 @@
 //  Created by Hannes Walz on 07.04.12.
 //  Copyright 2012 leuchtetgruen. All rights reserved.
 //
-#import <AtoZUniversal/F+Private.h>
+#import "F+Private.h"
 
 @implementation NSDictionary(F)
 

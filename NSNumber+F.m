@@ -7,7 +7,7 @@
 //
 
 
-#import <AtoZUniversal/F+Private.h>
+#import "F+Private.h"
 
 
 @implementation NSNumber(F)

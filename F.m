@@ -1,5 +1,5 @@
 
-#import <AtoZUniversal/F+Private.h>
+#import "F+Private.h"
 
 static BOOL F_concurrently = NO;
 
